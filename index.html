@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Zefa 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      font-family: Arial, sans-serif;
+      color: #d4af37;
+      text-align: center;
+    }
+    #quiz { display: none; padding: 20px; max-width: 600px; margin: 40px auto; }
+    .question { font-size: 2rem; margin-bottom: 20px; }
+    .options button {
+      background-color: #d4af37;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      margin: 10px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgmusic" loop>
+    <source src="parabens.mp3" type="audio/mpeg" />
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div id="audioPrompt">
+    <button onclick="startSite()">Clique para começar 💖</button>
+  </div>
+
+  <div class="container" id="quiz">
+    <div class="question" id="question"></div>
+    <div class="options" id="options"></div>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Achou que eu não lembraria, né?",
+        options: ["Sim", "Com certeza"],
+        message: ["Achou errado!", "Deixa de ser bandida!"],
+        next: 1
+      },
+      {
+        question: "Está tudo bem?",
+        options: ["Sim, estou bem", "Não estou"],
+        message: ["Coisa boa, mas pode ficar melhor!", "Isso é uma frase! @_@Humor"],
+        next: 2
+      },
+      {
+        question: "Alguém já lhe falou que você é bonita, hoje?",
+        options: ["Sim", "Não"],
+        message: ["Nuum diga!", "Isso é inveja! levanta a cabeça, princesa, senão a coroa cai!"],
+        next: null
+      }
+    ];
+    let currentQuestion = 0;
+
+    function startSite() {
+      document.getElementById('audioPrompt').remove();
+      document.getElementById('quiz').style.display = 'block';
+      document.getElementById('bgmusic').play();
+      loadQuestion(currentQuestion);
+    }
+
+    function loadQuestion(index) {
+      const q = quizData[index];
+      const questionEl = document.getElementById("question");
+      const optionsContainer = document.getElementById("options");
+      const messageContainer = document.getElementById("message");
+
+      questionEl.textContent = q.question;
+      optionsContainer.innerHTML = "";
+      messageContainer.textContent = "";
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.textContent = opt;
+        btn.onclick = () => {
+          if (q.message && q.message[i]) {
+            messageContainer.textContent = q.message[i];
+            setTimeout(() => {
+              if (q.next !== null) {
+                currentQuestion = q.next;
+                loadQuestion(currentQuestion);
+              } else {
+                messageContainer.textContent = "Feliz aniversário, Zefa! 🎉";
+              }
+            }, 3000);
+          }
+        };
+        optionsContainer.appendChild(btn);
+      });
+    }
+  </script>
+</body>
+</html>
